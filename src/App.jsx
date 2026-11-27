@@ -97,6 +97,7 @@ function Shell() {
           onMenu={() => setMenuOpen(true)}
           onNavigate={navigate}
           hideMenu={page === 'customer/login' || page === 'admin/login' || page === 'track'}
+          hideExtras={page === 'customer/login' || page === 'track'}
         />
         <main className="page">
           <Page key={page} navigate={navigate} />

@@ -8,7 +8,7 @@ const DATE_LABEL = new Date().toLocaleDateString('en-IN', {
   month: 'short',
 })
 
-export default function Topbar({ title, subtitle, onMenu, onNavigate, hideMenu = false }) {
+export default function Topbar({ title, subtitle, onMenu, onNavigate, hideMenu = false, hideExtras = false }) {
   const { data, lowStock } = useStore()
   const activeJobs = data.jobs.filter(
     (job) => job.status === 'Pending' || job.status === 'In Progress',
@@ -33,36 +33,40 @@ export default function Topbar({ title, subtitle, onMenu, onNavigate, hideMenu =
       </div>
 
       <div className="topbar-actions">
-        <span className="date-chip">
-          <Icon name="calendar" size={14} />
-          {DATE_LABEL}
-        </span>
-        <span className="topbar-divider" />
-        <button
-          type="button"
-          className="icon-btn notification-btn"
-          onClick={() => onNavigate('admin')}
-          title={`${lowStock.length} spare parts need attention`}
-          aria-label="Low stock alerts"
-        >
-          <Icon name="bell" size={18} />
-          {lowStock.length > 0 && <span className="notif-dot" />}
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary btn-sm topbar-cta"
-          onClick={() => onNavigate('new-job')}
-        >
-          <Icon name="plus" size={15} />
-          New job
-        </button>
-        <div className="profile">
-          <Avatar name="Villzone Admin" size="sm" />
-          <div className="profile-copy">
-            <strong>Admin</strong>
-            <span>{activeJobs} jobs on floor</span>
-          </div>
-        </div>
+        {!hideExtras && (
+          <>
+            <span className="date-chip">
+              <Icon name="calendar" size={14} />
+              {DATE_LABEL}
+            </span>
+            <span className="topbar-divider" />
+            <button
+              type="button"
+              className="icon-btn notification-btn"
+              onClick={() => onNavigate('admin')}
+              title={`${lowStock.length} spare parts need attention`}
+              aria-label="Low stock alerts"
+            >
+              <Icon name="bell" size={18} />
+              {lowStock.length > 0 && <span className="notif-dot" />}
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm topbar-cta"
+              onClick={() => onNavigate('new-job')}
+            >
+              <Icon name="plus" size={15} />
+              New job
+            </button>
+            <div className="profile">
+              <Avatar name="Villzone Admin" size="sm" />
+              <div className="profile-copy">
+                <strong>Admin</strong>
+                <span>{activeJobs} jobs on floor</span>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </header>
   )
